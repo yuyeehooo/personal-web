@@ -156,7 +156,7 @@ document.querySelectorAll('[data-carousel]').forEach(carousel => {
     counter.textContent = `${String(visibleIndex + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
   };
   const positionTrack = animate => {
-    track.style.transition = animate ? '' : 'none';
+    track.style.transition = animate ? 'transform .48s cubic-bezier(.22,.8,.25,1)' : 'none';
     track.style.transform = `translate3d(${-((current + 1) * 100)}%, 0, 0)`;
   };
   const move = direction => {
@@ -167,17 +167,21 @@ document.querySelectorAll('[data-carousel]').forEach(carousel => {
     updateCounter();
   };
   positionTrack(false);
-  requestAnimationFrame(() => { track.style.transition = ''; });
+  void track.offsetWidth;
+  track.style.transition = 'transform .48s cubic-bezier(.22,.8,.25,1)';
   track.addEventListener('transitionend', event => {
     if (event.target !== track || !isAnimating) return;
     if (current === slides.length) {
       current = 0;
       positionTrack(false);
+      void track.offsetWidth;
     } else if (current === -1) {
       current = slides.length - 1;
       positionTrack(false);
+      void track.offsetWidth;
     }
-    requestAnimationFrame(() => { track.style.transition = ''; isAnimating = false; });
+    track.style.transition = 'transform .48s cubic-bezier(.22,.8,.25,1)';
+    isAnimating = false;
   });
   carousel.querySelectorAll('.carousel-arrow').forEach(button => button.addEventListener('click', () => { move(button.dataset.direction === 'next' ? 1 : -1); button.blur(); }));
   carousel.addEventListener('keydown', event => { if (event.key === 'ArrowRight') move(1); if (event.key === 'ArrowLeft') move(-1); });
