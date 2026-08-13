@@ -124,6 +124,7 @@ body.project-entering .detail:target {
 .artwork-stack { display:grid; grid-template-columns:1fr; gap:clamp(24px,4vw,58px); }
 .artwork-stack .artwork-button img { max-height:none; width:100%; object-fit:fill; }
 .artwork-context-stack .artwork-button img { object-fit:contain; background:#f8f8f6; }
+.artwork-button { cursor:none; }
 .lightbox-image { width:auto; height:auto; max-width:none; max-height:none; object-fit:contain; }
 .artwork-button { position: relative; display: block; width: 100%; padding: 0; border: 0; background: #e7e7e3; cursor: zoom-in; text-align: left; overflow: hidden; }.artwork-button img { display: block; width: 100%; max-height: 76vh; object-fit: contain; transition: transform .45s cubic-bezier(.22, .8, .25, 1), filter .35s; }.artwork-hero .artwork-button img { max-height: none; }
 .artwork-button span { position: absolute; right: 12px; bottom: 12px; padding: 7px 9px; background: rgba(17,17,17,.86); color: #fff; font-size: 10px; font-weight: 600; letter-spacing: .07em; opacity: 0; transform: translateY(8px); transition: opacity .25s, transform .25s; }.artwork-button:hover img,.artwork-button:focus-visible img { transform: scale(1.018); filter: brightness(.92); }.artwork-button:hover span,.artwork-button:focus-visible span { opacity: 1; transform: translateY(0); }
