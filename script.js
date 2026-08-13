@@ -91,6 +91,38 @@ document.querySelectorAll('.artwork-button').forEach(button => button.addEventLi
   showLightboxImage({ src: button.dataset.full, alt: button.querySelector('img').alt });
   lightbox.classList.add('is-open'); lightbox.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden';
 }));
+
+const draftCarousel = document.querySelector('[aria-label="Bridge draft gallery"]');
+const draftTrack = draftCarousel?.querySelector('.carousel-track');
+if (draftCarousel && draftTrack) {
+  const draftOrder = [
+    ['Bridge/draft/section.jpg', 'Sectional draft'],
+    ['Bridge/draft/draft.jpg', 'Conceptual draft'],
+    ['Bridge/draft/0.png', 'Draft study 01'],
+    ['Bridge/draft/1.png', 'Draft study 02'],
+    ['Bridge/draft/2.png', 'Draft study 03'],
+    ['Bridge/draft/3.png', 'Draft study 04'],
+    ['Bridge/draft/model/0.jpg', 'Model study 01'],
+    ['Bridge/draft/model/1.jpg', 'Model study 02'],
+    ['Bridge/draft/model/2.jpg', 'Model study 03'],
+    ['Bridge/draft/model/3.jpg', 'Model study 04'],
+    ['Bridge/draft/model/4.jpg', 'Model study 05'],
+    ['Bridge/draft/model/5.jpg', 'Model study 06'],
+    ['Bridge/draft/LAND7138_F24_Yu Yihao_P1A_Ex1(step4)_页面_1.png', 'Hydrological dynamics 1983'],
+    ['Bridge/draft/LAND7138_F24_Yu Yihao_P1A_Ex1(step4)_页面_2.png', 'Hydrological dynamics 1982'],
+    ['Bridge/draft/LAND7138_F24_Yu Yihao_P1A_Ex1(step4)_页面_3.png', 'Hydrological dynamics 2015'],
+    ['Bridge/draft/LAND7138_F24_Yu Yihao_P1A_Ex1(step4)_页面_4.png', 'Hydrological dynamics 2024'],
+    ['Bridge/draft/LAND7138_F24_Yu Yihao_P1A_Ex1(step4)_页面_5.png', 'Vegetation study 01'],
+    ['Bridge/draft/LAND7138_F24_Yu Yihao_P1A_Ex1(step4)_页面_6.png', 'Vegetation study 02'],
+    ['Bridge/draft/LAND7138_F24_Yu Yihao_P1A_Ex1(step4)_页面_7.png', 'Vegetation study 03'],
+    ['Bridge/draft/LAND7138_F24_Yu Yihao_P1A_Ex1(step4)_页面_8.png', 'Vegetation study 04']
+  ];
+  draftTrack.innerHTML = draftOrder.map(([src, alt], index) =>
+    `<figure class="carousel-slide"><img src="${src}" alt="${alt}"${index ? ' loading="lazy"' : ''}></figure>`
+  ).join('');
+  draftCarousel.querySelector('.carousel-count').textContent = '01 / 20';
+}
+
 document.querySelectorAll('.carousel-slide img').forEach(image => image.addEventListener('click', () => {
   lightboxGallery = [...image.closest('[data-carousel]').querySelectorAll('.carousel-slide img')]; lightboxIndex = lightboxGallery.indexOf(image); lightbox.classList.add('has-gallery');
   showLightboxImage(image);
