@@ -143,16 +143,46 @@ document.querySelectorAll('[data-carousel]').forEach(carousel => {
   const track = carousel.querySelector('.carousel-track');
   const slides = [...carousel.querySelectorAll('.carousel-slide')];
   const counter = carousel.querySelector('.carousel-count');
-  let current = 0, startX = null;
-  const show = index => {
-    current = (index + slides.length) % slides.length;
-    track.style.transform = `translate3d(${-current * 100}%, 0, 0)`;
-    counter.textContent = `${String(current + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+  if (slides.length < 2) return;
+  const firstClone = slides[0].cloneNode(true);
+  const lastClone = slides[slides.length - 1].cloneNode(true);
+  firstClone.classList.add('is-carousel-clone');
+  lastClone.classList.add('is-carousel-clone');
+  track.prepend(lastClone);
+  track.append(firstClone);
+  let current = 0, startX = null, isAnimating = false;
+  const updateCounter = () => {
+    const visibleIndex = (current + slides.length) % slides.length;
+    counter.textContent = `${String(visibleIndex + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
   };
-  carousel.querySelectorAll('.carousel-arrow').forEach(button => button.addEventListener('click', () => { show(current + (button.dataset.direction === 'next' ? 1 : -1)); button.blur(); }));
-  carousel.addEventListener('keydown', event => { if (event.key === 'ArrowRight') show(current + 1); if (event.key === 'ArrowLeft') show(current - 1); });
+  const positionTrack = animate => {
+    track.style.transition = animate ? '' : 'none';
+    track.style.transform = `translate3d(${-((current + 1) * 100)}%, 0, 0)`;
+  };
+  const move = direction => {
+    if (isAnimating) return;
+    isAnimating = true;
+    current += direction;
+    positionTrack(true);
+    updateCounter();
+  };
+  positionTrack(false);
+  requestAnimationFrame(() => { track.style.transition = ''; });
+  track.addEventListener('transitionend', event => {
+    if (event.target !== track || !isAnimating) return;
+    if (current === slides.length) {
+      current = 0;
+      positionTrack(false);
+    } else if (current === -1) {
+      current = slides.length - 1;
+      positionTrack(false);
+    }
+    requestAnimationFrame(() => { track.style.transition = ''; isAnimating = false; });
+  });
+  carousel.querySelectorAll('.carousel-arrow').forEach(button => button.addEventListener('click', () => { move(button.dataset.direction === 'next' ? 1 : -1); button.blur(); }));
+  carousel.addEventListener('keydown', event => { if (event.key === 'ArrowRight') move(1); if (event.key === 'ArrowLeft') move(-1); });
   carousel.addEventListener('pointerdown', event => { startX = event.clientX; });
-  carousel.addEventListener('pointerup', event => { if (startX === null) return; const delta = event.clientX - startX; if (Math.abs(delta) > 45) show(current + (delta < 0 ? 1 : -1)); startX = null; });
+  carousel.addEventListener('pointerup', event => { if (startX === null) return; const delta = event.clientX - startX; if (Math.abs(delta) > 45) move(delta < 0 ? 1 : -1); startX = null; });
 });
 
 const bridgePortfolio = document.querySelector('#bridge .bridge-portfolio');
