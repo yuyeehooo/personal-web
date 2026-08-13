@@ -66,9 +66,20 @@ const lightboxStage = lightbox?.querySelector('.lightbox-stage');
 let zoom = 1, panX = 0, panY = 0, dragStart = null;
 const minZoom = .45, maxZoom = 4;
 function renderLightboxImage() { lightboxImage.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`; }
+function fitLightboxImage() {
+  if (!lightboxImage?.naturalWidth || !lightboxStage) return;
+  const styles = getComputedStyle(lightboxStage);
+  const availableWidth = lightboxStage.clientWidth - parseFloat(styles.paddingLeft) - parseFloat(styles.paddingRight);
+  const availableHeight = lightboxStage.clientHeight - parseFloat(styles.paddingTop) - parseFloat(styles.paddingBottom);
+  const ratio = Math.min(availableWidth / lightboxImage.naturalWidth, availableHeight / lightboxImage.naturalHeight);
+  lightboxImage.style.width = `${Math.floor(lightboxImage.naturalWidth * ratio)}px`;
+  lightboxImage.style.height = `${Math.floor(lightboxImage.naturalHeight * ratio)}px`;
+  zoom = 1; panX = 0; panY = 0; renderLightboxImage();
+}
 function closeLightbox() { lightbox.classList.remove('is-open'); lightbox.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; }
 document.querySelectorAll('.artwork-button').forEach(button => button.addEventListener('click', () => {
-  zoom = 1; panX = 0; panY = 0; renderLightboxImage();
+  lightboxImage.style.visibility = 'hidden';
+  lightboxImage.onload = () => { fitLightboxImage(); lightboxImage.style.visibility = 'visible'; };
   lightboxImage.src = button.dataset.full; lightboxImage.alt = button.querySelector('img').alt;
   lightboxCaption.textContent = button.dataset.caption;
   lightbox.classList.add('is-open'); lightbox.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden';
@@ -80,4 +91,4 @@ lightboxStage?.addEventListener('wheel', event => { event.preventDefault(); zoom
 lightboxStage?.addEventListener('pointerdown', event => { if (zoom <= 1) return; dragStart = { x:event.clientX, y:event.clientY, panX, panY }; lightboxStage.classList.add('is-panning'); lightboxStage.setPointerCapture(event.pointerId); });
 lightboxStage?.addEventListener('pointermove', event => { if (!dragStart) return; panX = dragStart.panX + event.clientX - dragStart.x; panY = dragStart.panY + event.clientY - dragStart.y; renderLightboxImage(); });
 lightboxStage?.addEventListener('pointerup', () => { dragStart = null; lightboxStage.classList.remove('is-panning'); });
-addEventListener('resize', () => { if (lightbox?.classList.contains('is-open')) { panX = 0; panY = 0; zoom = 1; renderLightboxImage(); } });
+addEventListener('resize', () => { if (lightbox?.classList.contains('is-open')) fitLightboxImage(); });
