@@ -40,14 +40,6 @@ nav {
 }
 #nav { padding: 28px 32px; }
 
-#nav nav {
-  padding: 12px 16px;
-  background: rgba(244, 244, 241, .72);
-  border: 1px solid rgba(17, 17, 17, .06);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-
 .home-dot {
   width: 28px;
   height: 28px;
@@ -203,8 +195,6 @@ body.project-entering .detail:target {
 
 @media (max-width: 700px) {
   #nav { padding: 20px; }
-
-  #nav nav { padding: 9px 11px; }
 
   .home-dot {
     width: 22px;
