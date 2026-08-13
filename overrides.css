@@ -186,7 +186,7 @@ body.project-entering .detail:target {
   text-transform: uppercase;
 }
 
-.project-switch a:last-child { margin-left:auto; text-align:right; justify-content:flex-end; }
+.project-switch a:not(:only-child):last-child { margin-left:auto; text-align:right; justify-content:flex-end; }
 .project-switch b { font-weight: 700; }
 .project-switch span { font-size: 18px; line-height: .7; transition: transform .2s ease; }
 .project-switch a:first-child:hover span,.project-switch a:first-child:focus-visible span { transform: translateX(-5px); }
