@@ -192,3 +192,24 @@ document.querySelectorAll('[data-carousel]').forEach(carousel => {
 const bridgePortfolio = document.querySelector('#bridge .bridge-portfolio');
 const bridgeGalleries = bridgePortfolio?.querySelector('.archive-galleries');
 if (bridgePortfolio && bridgeGalleries) bridgePortfolio.before(bridgeGalleries);
+
+const projectRoutes = [
+  { id: 'bridge', previous: 'levelup', previousLabel: 'Level up', next: 'levelup', nextLabel: 'Level up' },
+  { id: 'levelup', previous: 'bridge', previousLabel: 'Bridge', next: 'bridge', nextLabel: 'Bridge' }
+];
+projectRoutes.forEach(({ id, previous, previousLabel, next, nextLabel }) => {
+  const detail = document.querySelector(`#${id}`);
+  if (!detail || detail.querySelector('.project-switch')) return;
+  detail.insertAdjacentHTML('beforeend', `
+    <nav class="project-switch" aria-label="Project navigation">
+      <a href="#${previous}" data-project-route="${previous}"><span>←</span> Previous project <b>${previousLabel}</b></a>
+      <a href="#${next}" data-project-route="${next}">Next project <b>${nextLabel}</b><span>→</span></a>
+    </nav>
+  `);
+});
+document.querySelectorAll('.project-switch [data-project-route]').forEach(link => {
+  link.addEventListener('click', event => {
+    event.preventDefault();
+    openProject(link.dataset.projectRoute);
+  });
+});
