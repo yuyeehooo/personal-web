@@ -42,14 +42,10 @@ nav {
 
 #nav nav {
   padding: 12px 16px;
-  background: transparent;
-  transition: background .2s ease, backdrop-filter .2s ease;
-}
-
-#nav.is-obscuring nav {
-  background: rgba(244, 244, 241, .82);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(244, 244, 241, .72);
+  border: 1px solid rgba(17, 17, 17, .06);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .home-dot {

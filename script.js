@@ -14,24 +14,6 @@ document.querySelectorAll('a, .project-card, .artwork-button, .media-carousel').
 function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);for(let i=dots.length-1;i>=0;i--){let d=dots[i];d.a-=.035;d.r*=.99;ctx.fillStyle=`rgba(0,0,0,${d.a*.4})`;ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,Math.PI*2);ctx.fill();if(d.a<=0)dots.splice(i,1)}requestAnimationFrame(draw)}draw();
 document.querySelectorAll('#nav a, .home-dot').forEach(a=>a.addEventListener('click',()=>document.body.classList.add('entered')));
 
-const siteNav = document.querySelector('#nav');
-const navLinks = siteNav?.querySelector('nav');
-const updateNavigationBackdrop = () => {
-  if (!siteNav || !navLinks) return;
-  const navBounds = navLinks.getBoundingClientRect();
-  const hasTextBehind = [...document.querySelectorAll('#site h1, #site h2, #site h3, #site p, #site .project-card span, #site .project-switch a')]
-    .some(element => {
-      const bounds = element.getBoundingClientRect();
-      return bounds.width > 0 && bounds.height > 0 &&
-        bounds.right > navBounds.left && bounds.left < navBounds.right &&
-        bounds.bottom > navBounds.top && bounds.top < navBounds.bottom;
-    });
-  siteNav.classList.toggle('is-obscuring', hasTextBehind);
-};
-addEventListener('scroll', updateNavigationBackdrop, { passive: true });
-addEventListener('resize', updateNavigationBackdrop);
-updateNavigationBackdrop();
-
 function openProject(target) {
   document.documentElement.style.scrollBehavior = 'auto';
   location.hash = target;
