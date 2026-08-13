@@ -201,7 +201,7 @@ projectRoutes.forEach(({ id, previous, next }) => {
   const detail = document.querySelector(`#${id}`);
   if (!detail || detail.querySelector('.project-switch')) return;
   detail.insertAdjacentHTML('beforeend', `
-    <nav class="project-switch" aria-label="Project navigation">
+    <nav class="project-switch ${previous ? 'has-previous' : ''} ${next ? 'has-next' : ''}" aria-label="Project navigation">
       ${previous ? `<a href="#${previous}" data-project-route="${previous}"><span>←</span> Previous</a>` : ''}
       ${next ? `<a href="#${next}" data-project-route="${next}">Next <span>→</span></a>` : ''}
     </nav>
