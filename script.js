@@ -117,7 +117,7 @@ document.querySelectorAll('[data-carousel]').forEach(carousel => {
     track.style.transform = `translate3d(${-current * 100}%, 0, 0)`;
     counter.textContent = `${String(current + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
   };
-  carousel.querySelectorAll('.carousel-arrow').forEach(button => button.addEventListener('click', () => show(current + (button.dataset.direction === 'next' ? 1 : -1))));
+  carousel.querySelectorAll('.carousel-arrow').forEach(button => button.addEventListener('click', () => { show(current + (button.dataset.direction === 'next' ? 1 : -1)); button.blur(); }));
   carousel.addEventListener('keydown', event => { if (event.key === 'ArrowRight') show(current + 1); if (event.key === 'ArrowLeft') show(current - 1); });
   carousel.addEventListener('pointerdown', event => { startX = event.clientX; });
   carousel.addEventListener('pointerup', event => { if (startX === null) return; const delta = event.clientX - startX; if (Math.abs(delta) > 45) show(current + (delta < 0 ? 1 : -1)); startX = null; });
