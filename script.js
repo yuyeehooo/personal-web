@@ -64,6 +64,7 @@ const lightboxImage = lightbox?.querySelector('.lightbox-image');
 const lightboxCaption = lightbox?.querySelector('.lightbox-caption');
 const lightboxStage = lightbox?.querySelector('.lightbox-stage');
 let zoom = 1, panX = 0, panY = 0, dragStart = null;
+let lightboxGallery = [], lightboxIndex = 0;
 const minZoom = .45, maxZoom = 4;
 function renderLightboxImage() { lightboxImage.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`; }
 function fitLightboxImage() {
@@ -76,25 +77,30 @@ function fitLightboxImage() {
   lightboxImage.style.height = `${Math.floor(lightboxImage.naturalHeight * ratio)}px`;
   zoom = 1; panX = 0; panY = 0; renderLightboxImage();
 }
-function closeLightbox() { lightbox.classList.remove('is-open'); lightbox.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; }
-document.querySelectorAll('.artwork-button').forEach(button => button.addEventListener('click', () => {
+function showLightboxImage(image) {
   lightboxImage.style.visibility = 'hidden';
   lightboxImage.onload = () => { fitLightboxImage(); lightboxImage.style.visibility = 'visible'; };
-  lightboxImage.src = button.dataset.full; lightboxImage.alt = button.querySelector('img').alt;
-  lightboxCaption.textContent = button.dataset.caption;
+  lightboxImage.src = image.currentSrc || image.src || image;
+  lightboxImage.alt = image.alt || '';
+  lightboxCaption.textContent = '';
+}
+function moveLightbox(direction) { if (!lightboxGallery.length) return; lightboxIndex = (lightboxIndex + direction + lightboxGallery.length) % lightboxGallery.length; showLightboxImage(lightboxGallery[lightboxIndex]); }
+function closeLightbox() { lightbox.classList.remove('is-open', 'has-gallery'); lightbox.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; lightboxGallery = []; }
+document.querySelectorAll('.artwork-button').forEach(button => button.addEventListener('click', () => {
+  lightboxGallery = []; lightboxIndex = 0; lightbox.classList.remove('has-gallery');
+  showLightboxImage({ src: button.dataset.full, alt: button.querySelector('img').alt });
   lightbox.classList.add('is-open'); lightbox.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden';
 }));
 document.querySelectorAll('.carousel-slide img').forEach(image => image.addEventListener('click', () => {
-  lightboxImage.style.visibility = 'hidden';
-  lightboxImage.onload = () => { fitLightboxImage(); lightboxImage.style.visibility = 'visible'; };
-  lightboxImage.src = image.currentSrc || image.src;
-  lightboxImage.alt = image.alt;
-  lightboxCaption.textContent = image.alt;
+  lightboxGallery = [...image.closest('[data-carousel]').querySelectorAll('.carousel-slide img')]; lightboxIndex = lightboxGallery.indexOf(image); lightbox.classList.add('has-gallery');
+  showLightboxImage(image);
   lightbox.classList.add('is-open'); lightbox.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden';
 }));
 lightbox?.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+lightbox?.querySelector('.lightbox-previous').addEventListener('click', () => moveLightbox(-1));
+lightbox?.querySelector('.lightbox-next').addEventListener('click', () => moveLightbox(1));
 lightbox?.addEventListener('click', event => { if (event.target === lightbox) closeLightbox(); });
-document.addEventListener('keydown', event => { if (event.key === 'Escape' && lightbox?.classList.contains('is-open')) closeLightbox(); });
+document.addEventListener('keydown', event => { if (!lightbox?.classList.contains('is-open')) return; if (event.key === 'Escape') closeLightbox(); if (event.key === 'ArrowLeft') moveLightbox(-1); if (event.key === 'ArrowRight') moveLightbox(1); });
 lightboxStage?.addEventListener('wheel', event => { event.preventDefault(); zoom = Math.min(maxZoom, Math.max(minZoom, zoom + (event.deltaY < 0 ? .18 : -.18))); if (zoom <= 1) { panX = 0; panY = 0; } renderLightboxImage(); }, { passive: false });
 lightboxStage?.addEventListener('pointerdown', event => { if (zoom <= 1) return; dragStart = { x:event.clientX, y:event.clientY, panX, panY }; lightboxStage.classList.add('is-panning'); lightboxStage.setPointerCapture(event.pointerId); });
 lightboxStage?.addEventListener('pointermove', event => { if (!dragStart) return; panX = dragStart.panX + event.clientX - dragStart.x; panY = dragStart.panY + event.clientY - dragStart.y; renderLightboxImage(); });
