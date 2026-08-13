@@ -84,6 +84,14 @@ document.querySelectorAll('.artwork-button').forEach(button => button.addEventLi
   lightboxCaption.textContent = button.dataset.caption;
   lightbox.classList.add('is-open'); lightbox.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden';
 }));
+document.querySelectorAll('.carousel-slide img').forEach(image => image.addEventListener('click', () => {
+  lightboxImage.style.visibility = 'hidden';
+  lightboxImage.onload = () => { fitLightboxImage(); lightboxImage.style.visibility = 'visible'; };
+  lightboxImage.src = image.currentSrc || image.src;
+  lightboxImage.alt = image.alt;
+  lightboxCaption.textContent = image.alt;
+  lightbox.classList.add('is-open'); lightbox.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden';
+}));
 lightbox?.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
 lightbox?.addEventListener('click', event => { if (event.target === lightbox) closeLightbox(); });
 document.addEventListener('keydown', event => { if (event.key === 'Escape' && lightbox?.classList.contains('is-open')) closeLightbox(); });
