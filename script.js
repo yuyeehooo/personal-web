@@ -122,3 +122,7 @@ document.querySelectorAll('[data-carousel]').forEach(carousel => {
   carousel.addEventListener('pointerdown', event => { startX = event.clientX; });
   carousel.addEventListener('pointerup', event => { if (startX === null) return; const delta = event.clientX - startX; if (Math.abs(delta) > 45) show(current + (delta < 0 ? 1 : -1)); startX = null; });
 });
+
+const bridgePortfolio = document.querySelector('#bridge .bridge-portfolio');
+const bridgeGalleries = bridgePortfolio?.querySelector('.archive-galleries');
+if (bridgePortfolio && bridgeGalleries) bridgePortfolio.before(bridgeGalleries);
