@@ -136,7 +136,7 @@ body.project-entering .detail:target {
 .archive-galleries { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:clamp(20px,3vw,48px); }.archive-galleries .archive-section { margin-top:clamp(76px,12vw,170px); }.archive-galleries .carousel-slide { height:clamp(280px,34vw,560px); }.carousel-slide img { cursor:none; object-fit:cover; object-position:center; }
 .bridge-intro + .archive-galleries { margin-top:clamp(56px,8vw,110px); }.bridge-intro + .archive-galleries .archive-section { margin-top:0; }
 .bridge-intro + .archive-galleries { padding-bottom:clamp(64px,9vw,130px); border-bottom:1px solid var(--line); margin-bottom:clamp(64px,9vw,130px); }
-.archive-galleries .archive-heading h3 { font-size:clamp(24px,2.8vw,40px); }
+.archive-galleries .archive-heading h3 { font-size:clamp(12px,1.4vw,20px); }
 .carousel-controls { right:12px; bottom:12px; gap:4px; padding:5px 6px; opacity:0; transform:translateY(8px); transition:opacity .25s,transform .25s; }.media-carousel:hover .carousel-controls,.media-carousel:focus-within .carousel-controls { opacity:1; transform:translateY(0); }.carousel-arrow { width:28px; height:24px; font-size:16px; }.carousel-count { min-width:46px; font-size:9px; }
 @media (max-width:700px){.archive-galleries { grid-template-columns:1fr; gap:0; }.archive-heading { display:block; }.archive-heading h3 { margin-top:12px; }.carousel-slide,.archive-galleries .carousel-slide { height:62vw; min-height:260px; }.carousel-controls { right:10px; bottom:10px; }.carousel-arrow { width:30px; }}
 @media (max-width:700px){.carousel-controls { opacity:1; transform:none; }}
