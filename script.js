@@ -46,24 +46,24 @@ if (levelupPortfolio) {
       </div>
     </div>
     ${levelupArtwork('Level%20up/section%20mini-01.png', 'Site section', 'artwork-hero')}
-    <div class="artwork-pair">
+    <div class="artwork-pair levelup-drawing-pair">
       ${levelupArtwork('Level%20up/ladder%20section-01.png', 'Ladder section')}
-      ${levelupArtwork('Level%20up/planting%20design.png', 'Planting design')}
+      ${levelupArtwork('Level%20up/planting%20design.jpg', 'Planting design')}
     </div>
     ${levelupArtwork('Level%20up/bird%20view.jpg', "Bird's eye view", 'artwork-hero')}
-    <div class="artwork-pair">
+    <div class="artwork-pair levelup-scene-pair">
       ${levelupArtwork('Level%20up/bouncer.png', 'Bouncer scene')}
       ${levelupArtwork('Level%20up/gear.png', 'Gear scene')}
     </div>
-    <div class="artwork-pair">
+    <div class="artwork-pair levelup-scene-pair">
       ${levelupArtwork('Level%20up/ladder.png', 'Ladder scene')}
       ${levelupArtwork('Level%20up/maze.png', 'Maze scene')}
     </div>
-    <div class="artwork-pair">
+    <div class="artwork-pair levelup-scene-pair">
       ${levelupArtwork('Level%20up/zipline.png', 'Zipline scene')}
       ${levelupArtwork('Level%20up/rest.png', 'Rest area scene')}
     </div>
-    <div class="artwork-pair">
+    <div class="artwork-pair levelup-scene-pair">
       ${levelupArtwork('Level%20up/climbing.png', 'Climbing scene')}
       ${levelupArtwork('Level%20up/trail.png', 'Trail scene')}
     </div>

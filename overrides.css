@@ -124,6 +124,12 @@ body.project-entering .detail:target {
 .artwork-stack { display:grid; grid-template-columns:1fr; gap:clamp(24px,4vw,58px); }
 .levelup-plan-grid { display:grid; grid-template-columns:minmax(0,1.32fr) minmax(0,.68fr); gap:clamp(14px,2.4vw,32px); align-items:start; }
 .levelup-plan-aside { display:grid; gap:clamp(14px,2.4vw,32px); }
+.levelup-plan-grid .artwork-button img { width:100%; height:auto; max-height:none; object-fit:fill; }
+.levelup-drawing-pair .artwork-button { aspect-ratio:1.42; display:grid; place-items:center; }
+.levelup-drawing-pair .artwork-button img { width:100%; height:100%; max-height:none; object-fit:contain; }
+.levelup-scene-pair { align-items:stretch; }
+.levelup-scene-pair .artwork-button { height:clamp(280px,34vw,560px); }
+.levelup-scene-pair .artwork-button img { width:100%; height:100%; max-height:none; object-fit:cover; object-position:center; }
 .artwork-stack .artwork-button img { max-height:none; width:100%; object-fit:fill; }
 .artwork-context-stack .artwork-button img { object-fit:contain; background:#f8f8f6; }
 .artwork-button,
