@@ -101,7 +101,19 @@ document.querySelectorAll('#levelup .artwork-button img').forEach(image => {
   if (image.complete) requestAnimationFrame(alignLevelupDrawings);
   else image.addEventListener('load', alignLevelupDrawings, { once: true });
 });
-addEventListener('resize', alignLevelupDrawings);
+let levelupAlignmentQueued = false;
+const queueLevelupAlignment = () => {
+  if (levelupAlignmentQueued) return;
+  levelupAlignmentQueued = true;
+  requestAnimationFrame(() => {
+    levelupAlignmentQueued = false;
+    alignLevelupDrawings();
+  });
+};
+const levelupPlanGrid = document.querySelector('#levelup .levelup-plan-grid');
+if (levelupPlanGrid && 'ResizeObserver' in window) new ResizeObserver(queueLevelupAlignment).observe(levelupPlanGrid);
+addEventListener('resize', queueLevelupAlignment);
+addEventListener('hashchange', queueLevelupAlignment);
 
 function openProject(target) {
   document.documentElement.style.scrollBehavior = 'auto';
@@ -109,6 +121,7 @@ function openProject(target) {
   document.body.classList.remove('project-entering');
   requestAnimationFrame(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    if (target === '#levelup') queueLevelupAlignment();
     document.body.classList.add('project-entering');
     document.documentElement.style.scrollBehavior = '';
     window.setTimeout(() => document.body.classList.remove('project-entering'), 1050);
