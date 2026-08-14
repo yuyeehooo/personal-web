@@ -35,14 +35,14 @@ if (levelupPortfolio) {
   levelupPortfolio.innerHTML = `
     <div class="artwork-stack levelup-research">
       ${levelupArtwork('Level%20up/user%20profile.jpg', 'User profile and site research', 'artwork-hero')}
-      ${levelupArtwork('Level%20up/elements_画板%201.png', 'Quarry Hill historical layers', 'artwork-hero')}
+      ${levelupArtwork('Level%20up/game%20elements_%E7%94%BB%E6%9D%BF%201.png', 'Quarry Hill historical layers', 'artwork-hero')}
       ${levelupArtwork('Level%20up/add%20game.png', 'Game references and spatial narrative', 'artwork-hero')}
     </div>
     <div class="levelup-plan-grid">
       ${levelupArtwork('Level%20up/site%20plan.jpg', 'Level up site plan')}
       <div class="levelup-plan-aside">
-        ${levelupArtwork('Level%20up/accessibility_画板%201.png', 'Accessibility strategy')}
-        ${levelupArtwork('Level%20up/game%20line_画板%201.png', 'Game path strategy')}
+        ${levelupArtwork('Level%20up/accessibility_%E7%94%BB%E6%9D%BF%201.png', 'Accessibility strategy')}
+        ${levelupArtwork('Level%20up/game%20line_%E7%94%BB%E6%9D%BF%201.png', 'Game path strategy')}
       </div>
     </div>
     ${levelupArtwork('Level%20up/section%20mini-01.png', 'Site section', 'artwork-hero')}
