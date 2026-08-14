@@ -29,8 +29,8 @@ if (levelupCopy) levelupCopy.innerHTML = `
 
 const levelupPortfolio = document.querySelector('#levelup .levelup-portfolio');
 if (levelupPortfolio) {
-  const levelupArtwork = (src, alt, className = '') => `
-    <figure class="artwork ${className}"><button class="artwork-button" type="button" data-full="${src}"><img src="${src}" alt="${alt}"><span>Open drawing</span></button></figure>
+  const levelupArtwork = (src, title, className = '') => `
+    <figure class="artwork ${className}"><button class="artwork-button" type="button" data-full="${src}" data-caption="${title}" aria-label="View ${title} in detail"><img src="${src}" alt="${title}"><span>${title}</span></button></figure>
   `;
   levelupPortfolio.innerHTML = `
     <div class="artwork-stack levelup-research">
