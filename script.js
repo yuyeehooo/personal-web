@@ -14,6 +14,9 @@ document.querySelectorAll('a, .project-card, .artwork-button, .media-carousel').
 function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);for(let i=dots.length-1;i>=0;i--){let d=dots[i];d.a-=.035;d.r*=.99;ctx.fillStyle=`rgba(0,0,0,${d.a*.4})`;ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,Math.PI*2);ctx.fill();if(d.a<=0)dots.splice(i,1)}requestAnimationFrame(draw)}draw();
 document.querySelectorAll('#nav a, .home-dot').forEach(a=>a.addEventListener('click',()=>document.body.classList.add('entered')));
 
+const bridgeLocation = document.querySelector('#bridge .bridge-location');
+if (bridgeLocation) bridgeLocation.innerHTML = 'Shap Long Valley, South Lantau, Hong Kong<br>about 6ha';
+
 function openProject(target) {
   document.documentElement.style.scrollBehavior = 'auto';
   location.hash = target;
