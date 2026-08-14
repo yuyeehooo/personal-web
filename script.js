@@ -73,9 +73,17 @@ if (levelupPortfolio) {
     </div>
   `;
 
+  const levelupDraftVersions = {
+    '2.jpg': '20260814150938',
+    '8model/4.jpg': '20260814151142',
+    '8model/6.jpg': '20260814151151',
+    '8model/7.jpg': '20260814151200',
+    '8model/8.jpg': '20260814151208'
+  };
+  const levelupDraftSource = path => `Level%20up/draft/${path}${levelupDraftVersions[path] ? `?v=${levelupDraftVersions[path]}` : ''}`;
   const levelupDraftImages = [
-    ...Array.from({ length: 7 }, (_, index) => [`Level%20up/draft/${index + 1}.jpg`, `Level up draft ${String(index + 1).padStart(2, '0')}`]),
-    ...Array.from({ length: 11 }, (_, index) => [`Level%20up/draft/8model/${index + 1}.jpg`, `Level up model ${String(index + 1).padStart(2, '0')}`])
+    ...Array.from({ length: 7 }, (_, index) => [`${levelupDraftSource(`${index + 1}.jpg`)}`, `Level up draft ${String(index + 1).padStart(2, '0')}`]),
+    ...Array.from({ length: 11 }, (_, index) => [`${levelupDraftSource(`8model/${index + 1}.jpg`)}`, `Level up model ${String(index + 1).padStart(2, '0')}`])
   ];
   const levelupSiteImages = Array.from({ length: 6 }, (_, index) => [`Level%20up/site%20photo/${index + 1}.jpg`, `Level up site photo ${String(index + 1).padStart(2, '0')}`]);
   const makeCarousel = (label, images) => `
