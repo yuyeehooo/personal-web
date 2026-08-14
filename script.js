@@ -97,6 +97,7 @@ if (levelupPortfolio) {
       <section class="archive-section" aria-labelledby="levelup-site-photo-title"><div class="archive-heading"><p class="kicker">Site documentation</p><h3 id="levelup-site-photo-title">Site photo</h3></div>${makeCarousel('Level up site photo gallery', levelupSiteImages)}</section>
     </div>
   `);
+  document.querySelectorAll('#levelup .artwork-button').forEach(bindCursorHover);
   document.querySelectorAll('#levelup .media-carousel').forEach(bindCursorHover);
 }
 
