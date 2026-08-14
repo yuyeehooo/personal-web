@@ -52,7 +52,7 @@ if (levelupPortfolio) {
     </div>
     ${levelupArtwork('Level%20up/bird%20view.jpg', "Bird's eye view", 'artwork-hero')}
     <div class="artwork-pair levelup-scene-pair">
-      ${levelupArtwork('Level%20up/bouncer.png', 'Bouncer scene')}
+      ${levelupArtwork('Level%20up/mushroom%20bouncer.png', 'Mushroom bouncer scene')}
       ${levelupArtwork('Level%20up/gear.png', 'Gear scene')}
     </div>
     <div class="artwork-pair levelup-scene-pair">
