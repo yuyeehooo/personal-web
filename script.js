@@ -27,6 +27,49 @@ if (levelupCopy) levelupCopy.innerHTML = `
   <p>By translating game movement mechanics into spatial experiences, the site becomes a sequence of levels connected through dynamic routes. At the same time, the historical layers of Quarry Hill are reinterpreted as different scenarios within the journey. The objective is to create an engaging, playable environment where visitors become active participants, encouraging young people to return to public space through challenge, discovery, and immersive experience.</p>
 `;
 
+const levelupPortfolio = document.querySelector('#levelup .levelup-portfolio');
+if (levelupPortfolio) {
+  const levelupArtwork = (src, alt, className = '') => `
+    <figure class="artwork ${className}"><button class="artwork-button" type="button" data-full="${src}"><img src="${src}" alt="${alt}"><span>Open drawing</span></button></figure>
+  `;
+  levelupPortfolio.innerHTML = `
+    <div class="artwork-stack levelup-research">
+      ${levelupArtwork('Level%20up/user%20profile.jpg', 'User profile and site research', 'artwork-hero')}
+      ${levelupArtwork('Level%20up/elements_画板%201.png', 'Quarry Hill historical layers', 'artwork-hero')}
+      ${levelupArtwork('Level%20up/add%20game.png', 'Game references and spatial narrative', 'artwork-hero')}
+    </div>
+    <div class="levelup-plan-grid">
+      ${levelupArtwork('Level%20up/site%20plan.jpg', 'Level up site plan')}
+      <div class="levelup-plan-aside">
+        ${levelupArtwork('Level%20up/accessibility_画板%201.png', 'Accessibility strategy')}
+        ${levelupArtwork('Level%20up/game%20line_画板%201.png', 'Game path strategy')}
+      </div>
+    </div>
+    ${levelupArtwork('Level%20up/section%20mini-01.png', 'Site section', 'artwork-hero')}
+    <div class="artwork-pair">
+      ${levelupArtwork('Level%20up/ladder%20section-01.png', 'Ladder section')}
+      ${levelupArtwork('Level%20up/planting%20design.png', 'Planting design')}
+    </div>
+    ${levelupArtwork('Level%20up/bird%20view.jpg', "Bird's eye view", 'artwork-hero')}
+    <div class="artwork-pair">
+      ${levelupArtwork('Level%20up/bouncer.png', 'Bouncer scene')}
+      ${levelupArtwork('Level%20up/gear.png', 'Gear scene')}
+    </div>
+    <div class="artwork-pair">
+      ${levelupArtwork('Level%20up/ladder.png', 'Ladder scene')}
+      ${levelupArtwork('Level%20up/maze.png', 'Maze scene')}
+    </div>
+    <div class="artwork-pair">
+      ${levelupArtwork('Level%20up/zipline.png', 'Zipline scene')}
+      ${levelupArtwork('Level%20up/rest.png', 'Rest area scene')}
+    </div>
+    <div class="artwork-pair">
+      ${levelupArtwork('Level%20up/climbing.png', 'Climbing scene')}
+      ${levelupArtwork('Level%20up/trail.png', 'Trail scene')}
+    </div>
+  `;
+}
+
 function openProject(target) {
   document.documentElement.style.scrollBehavior = 'auto';
   location.hash = target;
