@@ -57,15 +57,15 @@ if (levelupPortfolio) {
     </div>
     <div class="artwork-pair levelup-scene-pair">
       ${levelupArtwork('Level%20up/ladder.png', 'Ladder scene')}
-      ${levelupArtwork('Level%20up/maze.png', 'Maze scene')}
+      ${levelupArtwork('Level%20up/cemetery%20maze.png', 'Maze scene')}
     </div>
     <div class="artwork-pair levelup-scene-pair">
       ${levelupArtwork('Level%20up/zipline.png', 'Zipline scene')}
-      ${levelupArtwork('Level%20up/rest.png', 'Rest area scene')}
+      ${levelupArtwork('Level%20up/rest%20stop.png', 'Rest area scene')}
     </div>
     <div class="artwork-pair levelup-scene-pair">
       ${levelupArtwork('Level%20up/climbing.png', 'Climbing scene')}
-      ${levelupArtwork('Level%20up/trail.png', 'Trail scene')}
+      ${levelupArtwork('Level%20up/Mine%20train%20roller%20coaster.png', 'Trail scene')}
     </div>
   `;
 }
