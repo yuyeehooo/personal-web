@@ -10,7 +10,11 @@ let x = innerWidth / 2, y = innerHeight / 2; const dots = [];
 const canvas = document.querySelector('#particles'), ctx = canvas.getContext('2d');
 function resize(){canvas.width=innerWidth;canvas.height=innerHeight}resize();addEventListener('resize',resize);
 addEventListener('mousemove',e=>{x=e.clientX;y=e.clientY;cursor.style.left=x+'px';cursor.style.top=y+'px';if(!matchMedia('(prefers-reduced-motion: reduce)').matches){dots.push({x,y,a:1,r:Math.random()*2+1})}});
-document.querySelectorAll('a, .project-card, .artwork-button, .media-carousel').forEach(el=>{el.addEventListener('mouseenter',()=>{cursor.classList.add('is-hovering');cursor.style.cssText+=`;width:28px;height:28px`});el.addEventListener('mouseleave',()=>{cursor.classList.remove('is-hovering');cursor.style.cssText+=`;width:12px;height:12px`})});
+const bindCursorHover = el => {
+  el.addEventListener('mouseenter', () => { cursor.classList.add('is-hovering'); cursor.style.cssText += ';width:28px;height:28px'; });
+  el.addEventListener('mouseleave', () => { cursor.classList.remove('is-hovering'); cursor.style.cssText += ';width:12px;height:12px'; });
+};
+document.querySelectorAll('a, .project-card, .artwork-button, .media-carousel').forEach(bindCursorHover);
 function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);for(let i=dots.length-1;i>=0;i--){let d=dots[i];d.a-=.035;d.r*=.99;ctx.fillStyle=`rgba(0,0,0,${d.a*.4})`;ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,Math.PI*2);ctx.fill();if(d.a<=0)dots.splice(i,1)}requestAnimationFrame(draw)}draw();
 document.querySelectorAll('#nav a, .home-dot').forEach(a=>a.addEventListener('click',()=>document.body.classList.add('entered')));
 
@@ -68,6 +72,24 @@ if (levelupPortfolio) {
       ${levelupArtwork('Level%20up/Mine%20train%20roller%20coaster.png', 'Trail scene')}
     </div>
   `;
+
+  const levelupDraftImages = [
+    ...Array.from({ length: 7 }, (_, index) => [`Level%20up/draft/${index + 1}.jpg`, `Level up draft ${String(index + 1).padStart(2, '0')}`]),
+    ...Array.from({ length: 11 }, (_, index) => [`Level%20up/draft/8model/${index + 1}.jpg`, `Level up model ${String(index + 1).padStart(2, '0')}`])
+  ];
+  const levelupSiteImages = Array.from({ length: 6 }, (_, index) => [`Level%20up/site%20photo/${index + 1}.jpg`, `Level up site photo ${String(index + 1).padStart(2, '0')}`]);
+  const makeCarousel = (label, images) => `
+    <div class="media-carousel" data-carousel tabindex="0" aria-label="${label}">
+      <div class="carousel-track">${images.map(([src, alt], index) => `<figure class="carousel-slide"><img src="${src}" alt="${alt}"${index ? ' loading="lazy"' : ''}></figure>`).join('')}</div>
+      <div class="carousel-controls"><button class="carousel-arrow" data-direction="previous" aria-label="Previous image">←</button><span class="carousel-count" aria-live="polite">01 / ${String(images.length).padStart(2, '0')}</span><button class="carousel-arrow" data-direction="next" aria-label="Next image">→</button></div>
+    </div>`;
+  levelupPortfolio.insertAdjacentHTML('beforebegin', `
+    <div class="archive-galleries levelup-galleries">
+      <section class="archive-section" aria-labelledby="levelup-draft-title"><div class="archive-heading"><p class="kicker">Process archive</p><h3 id="levelup-draft-title">Draft</h3></div>${makeCarousel('Level up draft gallery', levelupDraftImages)}</section>
+      <section class="archive-section" aria-labelledby="levelup-site-photo-title"><div class="archive-heading"><p class="kicker">Site documentation</p><h3 id="levelup-site-photo-title">Site photo</h3></div>${makeCarousel('Level up site photo gallery', levelupSiteImages)}</section>
+    </div>
+  `);
+  document.querySelectorAll('#levelup .media-carousel').forEach(bindCursorHover);
 }
 
 const alignLevelupDrawings = () => {
