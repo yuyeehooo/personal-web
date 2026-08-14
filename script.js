@@ -70,6 +70,39 @@ if (levelupPortfolio) {
   `;
 }
 
+const alignLevelupDrawings = () => {
+  if (innerWidth <= 700) {
+    document.querySelectorAll('#levelup .artwork-pair, #levelup .levelup-plan-grid').forEach(grid => { grid.style.gridTemplateColumns = ''; });
+    return;
+  }
+  document.querySelectorAll('#levelup .artwork-pair').forEach(pair => {
+    const images = [...pair.querySelectorAll('img')];
+    if (images.length !== 2 || images.some(image => !image.naturalWidth || !image.naturalHeight)) return;
+    const firstRatio = images[0].naturalWidth / images[0].naturalHeight;
+    const secondRatio = images[1].naturalWidth / images[1].naturalHeight;
+    pair.style.gridTemplateColumns = `${firstRatio}fr ${secondRatio}fr`;
+  });
+  const planGrid = document.querySelector('#levelup .levelup-plan-grid');
+  const planImages = planGrid ? [...planGrid.querySelectorAll('img')] : [];
+  if (!planGrid || planImages.length !== 3 || planImages.some(image => !image.naturalWidth || !image.naturalHeight)) return;
+  const [sitePlan, accessibility, gameLine] = planImages;
+  const siteRatio = sitePlan.naturalWidth / sitePlan.naturalHeight;
+  const accessibilityRatio = accessibility.naturalWidth / accessibility.naturalHeight;
+  const gameLineRatio = gameLine.naturalWidth / gameLine.naturalHeight;
+  const gridGap = parseFloat(getComputedStyle(planGrid).columnGap) || 0;
+  const stack = planGrid.querySelector('.levelup-plan-aside');
+  const stackGap = parseFloat(getComputedStyle(stack).rowGap) || 0;
+  const availableWidth = planGrid.clientWidth - gridGap;
+  const rightWidth = (availableWidth - siteRatio * stackGap) / (1 + siteRatio * ((1 / accessibilityRatio) + (1 / gameLineRatio)));
+  if (rightWidth > 0) planGrid.style.gridTemplateColumns = `${availableWidth - rightWidth}px ${rightWidth}px`;
+};
+
+document.querySelectorAll('#levelup .artwork-button img').forEach(image => {
+  if (image.complete) requestAnimationFrame(alignLevelupDrawings);
+  else image.addEventListener('load', alignLevelupDrawings, { once: true });
+});
+addEventListener('resize', alignLevelupDrawings);
+
 function openProject(target) {
   document.documentElement.style.scrollBehavior = 'auto';
   location.hash = target;
