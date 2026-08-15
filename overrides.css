@@ -108,6 +108,25 @@ body:has(.resume:target) .resume:target {
   min-height: 100vh;
 }
 
+/* Resume: keep academic and professional records equally legible. */
+.resume { font-family:'DM Sans',Arial,sans-serif; }
+.resume .cv-grid { max-width:1200px; gap:clamp(42px,8vw,130px); padding-top:clamp(18px,2vw,28px); }
+.resume .cv-column { display:grid; gap:clamp(22px,3vw,38px); }
+.resume .cv-grid h3 { margin:0; font:600 12px/1.2 'DM Sans',Arial,sans-serif; letter-spacing:.08em; }
+.resume .cv-entry { padding-top:16px; border-top:1px solid var(--line); }
+.resume .cv-entry p { max-width:none; margin:0; font:400 clamp(15px,1.2vw,18px)/1.42 'DM Sans',Arial,sans-serif; }
+.resume .cv-entry .cv-entry-head { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:12px 20px; align-items:baseline; }
+.resume .cv-entry b { font-weight:600; }
+.resume .cv-entry .cv-entry-head span { color:var(--muted); font-size:12px; letter-spacing:.04em; white-space:nowrap; }
+.resume .cv-entry .cv-entry-head + p { margin-top:6px; }
+.resume .skills p { max-width:1100px; font:500 clamp(21px,3vw,42px)/1.22 'DM Sans',Arial,sans-serif; letter-spacing:-.035em; }
+
+@media (max-width:700px) {
+  .resume .cv-grid { gap:42px; }
+  .resume .cv-entry .cv-entry-head { grid-template-columns:1fr; gap:4px; }
+  .resume .cv-entry .cv-entry-head span { font-size:11px; }
+}
+
 @keyframes project-detail-enter {
   from { opacity: 0; transform: translateY(12vh); }
   to { opacity: 1; transform: translateY(0); }
