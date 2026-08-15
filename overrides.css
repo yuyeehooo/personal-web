@@ -125,6 +125,7 @@ body:has(.resume:target) .resume:target {
 .resume .hobbies h2 { font-size:clamp(2.75rem,5.5vw,6rem)!important; font-weight:600!important; line-height:.9!important; letter-spacing:-.04em!important; }
 .resume .skills h2 { margin:0; padding-bottom:clamp(18px,2vw,28px); border-bottom:1px solid var(--ink); }
 .resume .skills p { max-width:1100px; margin:clamp(22px,3vw,36px) 0 0; font:600 clamp(15px,1.2vw,18px)/1.42 'DM Sans',Arial,sans-serif; letter-spacing:0; }
+.resume .hobby-grid em { align-self:flex-end; text-align:right; }
 
 @media (max-width:700px) {
   .resume .cv-grid { gap:42px; }
