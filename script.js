@@ -24,8 +24,10 @@ if (bridgeLocation) bridgeLocation.innerHTML = 'Shap Long Valley, South Lantau, 
 const levelupLocation = document.querySelector('#levelup .bridge-location');
 const levelupKeywords = document.querySelector('#levelup .bridge-keywords');
 const levelupCopy = document.querySelector('#levelup .project-copy');
+const resumeSkills = document.querySelector('#resume .skills p');
 if (levelupLocation) levelupLocation.innerHTML = 'Quarry hill, Ho Man Tin, Hong Kong<br>about 3.7ha';
 if (levelupKeywords) levelupKeywords.innerHTML = '<b>Key words:</b> Game-like landscape、 Youth-oriented public space、 Spatial narrative、 Playable environment';
+if (resumeSkills) resumeSkills.textContent = 'AutoCAD，Rhino，SketchUp，Adobe Creative Suite，Lumion，Enscape，D5，GIS';
 if (levelupCopy) levelupCopy.innerHTML = `
   <p>This project addresses the lack of attractive outdoor spaces for young people by transforming a conventional park into a game-like landscape. Instead of static and single-function spaces, the design introduces narrative, exploration, and interaction inspired by video games.</p>
   <p>By translating game movement mechanics into spatial experiences, the site becomes a sequence of levels connected through dynamic routes. At the same time, the historical layers of Quarry Hill are reinterpreted as different scenarios within the journey. The objective is to create an engaging, playable environment where visitors become active participants, encouraging young people to return to public space through challenge, discovery, and immersive experience.</p>
