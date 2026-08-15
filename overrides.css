@@ -112,7 +112,7 @@ body:has(.resume:target) .resume:target {
 .resume { font-family:'DM Sans',Arial,sans-serif; }
 .resume .cv-grid { max-width:1200px; gap:clamp(42px,8vw,130px); padding-top:clamp(18px,2vw,28px); }
 .resume .cv-column { display:grid; gap:clamp(22px,3vw,38px); }
-.resume .cv-grid h3 { margin:0; font:600 12px/1.2 'DM Sans',Arial,sans-serif; letter-spacing:.08em; }
+.resume .cv-grid h3 { margin:0; font:600 clamp(15px,1.2vw,18px)/1.42 'DM Sans',Arial,sans-serif; letter-spacing:0; }
 .resume .cv-entry { padding-top:16px; border-top:1px solid var(--line); }
 .resume .cv-entry p { max-width:none; margin:0; font:400 clamp(15px,1.2vw,18px)/1.42 'DM Sans',Arial,sans-serif; }
 .resume .cv-entry .cv-entry-head { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:12px 20px; align-items:baseline; }
@@ -120,8 +120,11 @@ body:has(.resume:target) .resume:target {
 .resume .cv-entry .cv-entry-head span { color:var(--muted); font-size:12px; letter-spacing:.04em; white-space:nowrap; }
 .resume .cv-entry .cv-entry-head + p { margin-top:6px; }
 .resume .skills { border-top:0; padding-top:0; }
+.resume > h2,
+.resume .skills h2,
+.resume .hobbies h2 { font:600 clamp(3rem,6.5vw,7.5rem)/.9 'DM Sans',Arial,sans-serif; letter-spacing:-.055em; }
 .resume .skills h2 { margin:0; padding-bottom:clamp(18px,2vw,28px); border-bottom:1px solid var(--ink); }
-.resume .skills p { max-width:1100px; margin:clamp(22px,3vw,36px) 0 0; font:400 clamp(18px,2.2vw,30px)/1.35 'DM Sans',Arial,sans-serif; letter-spacing:-.025em; }
+.resume .skills p { max-width:1100px; margin:clamp(22px,3vw,36px) 0 0; font:600 clamp(15px,1.2vw,18px)/1.42 'DM Sans',Arial,sans-serif; letter-spacing:0; }
 
 @media (max-width:700px) {
   .resume .cv-grid { gap:42px; }
