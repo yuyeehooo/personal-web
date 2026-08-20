@@ -314,9 +314,15 @@ function showLightboxImage(image) {
 }
 function moveLightbox(direction) { if (!lightboxGallery.length) return; lightboxIndex = (lightboxIndex + direction + lightboxGallery.length) % lightboxGallery.length; showLightboxImage(lightboxGallery[lightboxIndex]); }
 function closeLightbox() { lightbox.classList.remove('is-open', 'has-gallery'); lightbox.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; lightboxGallery = []; updateLightboxPage(); }
-document.querySelectorAll('.artwork-button').forEach(button => button.addEventListener('click', () => {
-  lightboxGallery = []; lightboxIndex = 0; lightbox.classList.remove('has-gallery');
-  showLightboxImage({ src: button.dataset.full, alt: button.querySelector('img').alt });
+document.querySelectorAll('.bridge-portfolio .artwork-button').forEach(button => button.addEventListener('click', () => {
+  const drawings = [...button.closest('.bridge-portfolio').querySelectorAll('.artwork-button')];
+  lightboxGallery = drawings.map(drawing => ({
+    src: drawing.dataset.full,
+    alt: drawing.querySelector('img')?.alt || ''
+  }));
+  lightboxIndex = drawings.indexOf(button);
+  lightbox.classList.toggle('has-gallery', lightboxGallery.length > 1);
+  showLightboxImage(lightboxGallery[lightboxIndex]);
   lightbox.classList.add('is-open'); lightbox.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden';
 }));
 
