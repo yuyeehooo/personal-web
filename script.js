@@ -295,7 +295,7 @@ if (draftCarousel && draftTrack) {
 }
 
 document.querySelectorAll('.carousel-slide img').forEach(image => image.addEventListener('click', () => {
-  lightboxGallery = [...image.closest('[data-carousel]').querySelectorAll('.carousel-slide img')]; lightboxIndex = lightboxGallery.indexOf(image); lightbox.classList.add('has-gallery');
+  lightboxGallery = [...image.closest('[data-carousel]').querySelectorAll('.carousel-slide:not(.is-carousel-clone) img')]; lightboxIndex = lightboxGallery.indexOf(image); lightbox.classList.add('has-gallery');
   showLightboxImage(image);
   lightbox.classList.add('is-open'); lightbox.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden';
 }));
