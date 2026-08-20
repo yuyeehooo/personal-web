@@ -1,3 +1,19 @@
+const resolveAssetPath = path => path
+  .replace(/^Bridge\//, 'Project/Bridge/')
+  .replace(/^Level%20up\//, 'Project/Level%20up/')
+  .replace(/^Painting%20%26%20sketch\//, 'About/Painting%20%26%20sketch/')
+  .replace('Project/Level%20up/maze.png', 'Project/Level%20up/cemetery%20maze.png');
+
+document.querySelectorAll('[src], [data-full]').forEach(element => {
+  if (element.hasAttribute('src')) element.src = resolveAssetPath(element.getAttribute('src'));
+  if (element.dataset.full) element.dataset.full = resolveAssetPath(element.dataset.full);
+});
+
+const bridgeCard = document.querySelector('.project-card.bridge');
+const levelupCard = document.querySelector('.project-card.level');
+if (bridgeCard) bridgeCard.style.backgroundImage = "url('Project/Bridge/site photo/8.jpg')";
+if (levelupCard) levelupCard.style.backgroundImage = "url('Project/Level up/bird view.jpg')";
+
 const entry = document.querySelector('#entry');
 entry.addEventListener('click', (event) => {
   event.preventDefault();
@@ -63,7 +79,7 @@ hobbyCards.forEach((card, index) => {
   if (prompt) prompt.textContent = 'Click to explore';
 });
 const paintingImages = Array.from({ length: 40 }, (_, index) => [
-  `Painting%20%26%20sketch/${index + 1}.jpg`,
+  resolveAssetPath(`Painting%20%26%20sketch/${index + 1}.jpg`),
   `Painting and sketch ${String(index + 1).padStart(2, '0')}`
 ]);
 const paintingCard = hobbyCards[1];
@@ -99,9 +115,12 @@ if (levelupCopy) levelupCopy.innerHTML = `
 
 const levelupPortfolio = document.querySelector('#levelup .levelup-portfolio');
 if (levelupPortfolio) {
-  const levelupArtwork = (src, title, className = '') => `
-    <figure class="artwork ${className}"><button class="artwork-button" type="button" data-full="${src}" data-caption="${title}" aria-label="View ${title} in detail"><img src="${src}" alt="${title}"><span>${title}</span></button></figure>
+  const levelupArtwork = (src, title, className = '') => {
+    const assetPath = resolveAssetPath(src);
+    return `
+    <figure class="artwork ${className}"><button class="artwork-button" type="button" data-full="${assetPath}" data-caption="${title}" aria-label="View ${title} in detail"><img src="${assetPath}" alt="${title}"><span>${title}</span></button></figure>
   `;
+  };
   levelupPortfolio.innerHTML = `
     <div class="artwork-stack levelup-research">
       ${levelupArtwork('Level%20up/user%20profile.jpg', 'User profile and site research', 'artwork-hero')}
@@ -146,12 +165,12 @@ if (levelupPortfolio) {
     '8model/7.jpg': '20260814151200',
     '8model/8.jpg': '20260814151208'
   };
-  const levelupDraftSource = path => `Level%20up/draft/${path}${levelupDraftVersions[path] ? `?v=${levelupDraftVersions[path]}` : ''}`;
+  const levelupDraftSource = path => resolveAssetPath(`Level%20up/draft/${path}${levelupDraftVersions[path] ? `?v=${levelupDraftVersions[path]}` : ''}`);
   const levelupDraftImages = [
     ...Array.from({ length: 7 }, (_, index) => [`${levelupDraftSource(`${index + 1}.jpg`)}`, `Level up draft ${String(index + 1).padStart(2, '0')}`]),
     ...Array.from({ length: 11 }, (_, index) => [`${levelupDraftSource(`8model/${index + 1}.jpg`)}`, `Level up model ${String(index + 1).padStart(2, '0')}`])
   ];
-  const levelupSiteImages = Array.from({ length: 6 }, (_, index) => [`Level%20up/site%20photo/${index + 1}.jpg`, `Level up site photo ${String(index + 1).padStart(2, '0')}`]);
+  const levelupSiteImages = Array.from({ length: 6 }, (_, index) => [resolveAssetPath(`Level%20up/site%20photo/${index + 1}.jpg`), `Level up site photo ${String(index + 1).padStart(2, '0')}`]);
   const makeCarousel = (label, images) => `
     <div class="media-carousel" data-carousel tabindex="0" aria-label="${label}">
       <div class="carousel-track">${images.map(([src, alt], index) => `<figure class="carousel-slide"><img src="${src}" alt="${alt}"${index ? ' loading="lazy"' : ''}></figure>`).join('')}</div>
@@ -327,7 +346,7 @@ if (draftCarousel && draftTrack) {
     ['Bridge/draft/LAND7138_F24_Yu Yihao_P1A_Ex1(step4)_页面_8.png', 'Vegetation study 04']
   ];
   draftTrack.innerHTML = draftOrder.map(([src, alt], index) =>
-    `<figure class="carousel-slide"><img src="${src}" alt="${alt}"${index ? ' loading="lazy"' : ''}></figure>`
+    `<figure class="carousel-slide"><img src="${resolveAssetPath(src)}" alt="${alt}"${index ? ' loading="lazy"' : ''}></figure>`
   ).join('');
   draftCarousel.querySelector('.carousel-count').textContent = '01 / 20';
 }
