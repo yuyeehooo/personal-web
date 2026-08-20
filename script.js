@@ -18,6 +18,30 @@ document.querySelectorAll('a, .project-card, .artwork-button, .media-carousel').
 function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);for(let i=dots.length-1;i>=0;i--){let d=dots[i];d.a-=.035;d.r*=.99;ctx.fillStyle=`rgba(0,0,0,${d.a*.4})`;ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,Math.PI*2);ctx.fill();if(d.a<=0)dots.splice(i,1)}requestAnimationFrame(draw)}draw();
 document.querySelectorAll('#nav a, .home-dot').forEach(a=>a.addEventListener('click',()=>document.body.classList.add('entered')));
 
+const contactLinks = [...document.querySelectorAll('#contact .contact-links a')];
+const homeIcon = '<span class="contact-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Z"/><path d="M9 21v-7h6v7"/></svg></span>';
+const mailIcon = '<span class="contact-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="m4 7 8 6 8-6"/></svg></span>';
+if (contactLinks.length === 2) {
+  const [websiteLink, emailLink] = contactLinks;
+  websiteLink.href = '#entry';
+  websiteLink.innerHTML = `${homeIcon}<span class="contact-link-label">yeehoo.com</span><span class="contact-link-arrow" aria-hidden="true">↗</span>`;
+  emailLink.href = 'mailto:yuyeehooo@gmail.com';
+  emailLink.innerHTML = `${mailIcon}<span class="contact-link-label">yuyeehooo@gmail.com</span><span class="contact-link-arrow" aria-hidden="true">↗</span>`;
+  websiteLink.addEventListener('click', event => {
+    event.preventDefault();
+    document.body.classList.remove('entered');
+    history.replaceState(null, '', '#home');
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    entry.addEventListener('click', revisitEntry, { once: true });
+  });
+}
+function revisitEntry(event) {
+  event.preventDefault();
+  document.body.classList.add('entered');
+  history.replaceState(null, '', '#home');
+  window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+}
+
 const bridgeLocation = document.querySelector('#bridge .bridge-location');
 if (bridgeLocation) bridgeLocation.innerHTML = 'Shap Long Valley, South Lantau, Hong Kong<br>about 6ha';
 

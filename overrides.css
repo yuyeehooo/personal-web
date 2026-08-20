@@ -136,6 +136,13 @@ body:has(.resume:target) .resume:target {
 .resume-contact-cta span { font-size:1.08em; transition:transform .25s ease; }
 .resume-contact-cta:hover,.resume-contact-cta:focus-visible { padding-inline:clamp(16px,2vw,28px); background:var(--ink); color:var(--paper); }
 .resume-contact-cta:hover span,.resume-contact-cta:focus-visible span { transform:translate(5px,-5px); }
+.contact .contact-links a { gap:12px; align-items:center; padding:14px 0; transition:background .25s,color .25s,padding .25s; }
+.contact .contact-link-icon { display:grid; place-items:center; width:18px; height:18px; flex:0 0 18px; }
+.contact .contact-link-icon svg { width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+.contact .contact-link-label { flex:1; }
+.contact .contact-link-arrow { font-size:1.08em; transition:transform .25s ease; }
+.contact .contact-links a:hover,.contact .contact-links a:focus-visible { padding-inline:clamp(12px,1.5vw,22px); background:var(--ink); color:var(--paper); }
+.contact .contact-links a:hover .contact-link-arrow,.contact .contact-links a:focus-visible .contact-link-arrow { transform:translate(5px,-5px); }
 
 @media (max-width:700px) {
   .resume .cv-grid { gap:42px; }
