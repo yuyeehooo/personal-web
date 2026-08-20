@@ -54,6 +54,20 @@ if (paintingCard) {
   `;
   bindCursorHover(paintingCard.querySelector('.media-carousel'));
 }
+const resume = document.querySelector('#resume');
+if (resume && !resume.querySelector('.resume-contact-cta')) {
+  resume.insertAdjacentHTML('beforeend', '<a class="resume-contact-cta" href="#contact">Feel free to get in touch.<span aria-hidden="true">↗</span></a>');
+  const resumeContactCta = resume.querySelector('.resume-contact-cta');
+  bindCursorHover(resumeContactCta);
+  resumeContactCta.addEventListener('click', event => {
+    event.preventDefault();
+    location.hash = 'contact';
+    requestAnimationFrame(() => {
+      const contact = document.querySelector('#contact');
+      window.scrollTo({ top: contact.offsetTop, left: 0, behavior: 'auto' });
+    });
+  });
+}
 if (levelupCopy) levelupCopy.innerHTML = `
   <p>This project addresses the lack of attractive outdoor spaces for young people by transforming a conventional park into a game-like landscape. Instead of static and single-function spaces, the design introduces narrative, exploration, and interaction inspired by video games.</p>
   <p>By translating game movement mechanics into spatial experiences, the site becomes a sequence of levels connected through dynamic routes. At the same time, the historical layers of Quarry Hill are reinterpreted as different scenarios within the journey. The objective is to create an engaging, playable environment where visitors become active participants, encouraging young people to return to public space through challenge, discovery, and immersive experience.</p>

@@ -132,6 +132,10 @@ body:has(.resume:target) .resume:target {
 .resume .hobby-gallery .carousel-slide { height:100%; min-height:0; background:#282828; }
 .resume .hobby-gallery .carousel-slide img { object-fit:cover; }
 .resume .hobby-gallery .carousel-controls { right:10px; bottom:10px; }
+.resume-contact-cta { display:flex; align-items:center; justify-content:space-between; gap:24px; width:100%; margin-top:clamp(72px,11vw,150px); padding:clamp(22px,3vw,38px) 0; border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); font:600 clamp(24px,3.4vw,48px)/1 'DM Sans',Arial,sans-serif; letter-spacing:-.035em; transition:background .25s,color .25s,padding .25s; }
+.resume-contact-cta span { font-size:1.08em; transition:transform .25s ease; }
+.resume-contact-cta:hover,.resume-contact-cta:focus-visible { padding-inline:clamp(16px,2vw,28px); background:var(--ink); color:var(--paper); }
+.resume-contact-cta:hover span,.resume-contact-cta:focus-visible span { transform:translate(5px,-5px); }
 
 @media (max-width:700px) {
   .resume .cv-grid { gap:42px; }
