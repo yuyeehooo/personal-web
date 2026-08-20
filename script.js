@@ -38,6 +38,22 @@ hobbyCards.forEach((card, index) => {
   if (title) title.textContent = hobbyLabels[index];
   if (prompt) prompt.textContent = 'Click to explore';
 });
+const paintingImages = Array.from({ length: 40 }, (_, index) => [
+  `Painting%20%26%20sketch/${index + 1}.jpg`,
+  `Painting and sketch ${String(index + 1).padStart(2, '0')}`
+]);
+const paintingCard = hobbyCards[1];
+if (paintingCard) {
+  paintingCard.classList.add('hobby-gallery');
+  paintingCard.innerHTML = `
+    <span>02</span><strong>Painting & sketch</strong>
+    <section class="media-carousel hobby-media-carousel" data-carousel tabindex="0" aria-label="Painting and sketch gallery">
+      <section class="carousel-track">${paintingImages.map(([src, alt], index) => `<figure class="carousel-slide"><img src="${src}" alt="${alt}"${index ? ' loading="lazy"' : ''}></figure>`).join('')}</section>
+      <aside class="carousel-controls"><button class="carousel-arrow" data-direction="previous" aria-label="Previous painting or sketch">←</button><span class="carousel-count" aria-live="polite">01 / 40</span><button class="carousel-arrow" data-direction="next" aria-label="Next painting or sketch">→</button></aside>
+    </section>
+  `;
+  bindCursorHover(paintingCard.querySelector('.media-carousel'));
+}
 if (levelupCopy) levelupCopy.innerHTML = `
   <p>This project addresses the lack of attractive outdoor spaces for young people by transforming a conventional park into a game-like landscape. Instead of static and single-function spaces, the design introduces narrative, exploration, and interaction inspired by video games.</p>
   <p>By translating game movement mechanics into spatial experiences, the site becomes a sequence of levels connected through dynamic routes. At the same time, the historical layers of Quarry Hill are reinterpreted as different scenarios within the journey. The objective is to create an engaging, playable environment where visitors become active participants, encouraging young people to return to public space through challenge, discovery, and immersive experience.</p>

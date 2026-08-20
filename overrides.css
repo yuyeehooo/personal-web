@@ -126,6 +126,12 @@ body:has(.resume:target) .resume:target {
 .resume .skills h2 { margin:0; padding-bottom:clamp(18px,2vw,28px); border-bottom:1px solid var(--ink); }
 .resume .skills p { max-width:1100px; margin:clamp(22px,3vw,36px) 0 0; font:600 clamp(15px,1.2vw,18px)/1.42 'DM Sans',Arial,sans-serif; letter-spacing:0; }
 .resume .hobby-grid em { align-self:flex-end; text-align:right; }
+.resume .hobby-grid > .hobby-gallery { display:grid; grid-template-rows:auto auto minmax(0,1fr); gap:14px; justify-content:stretch; padding:18px; }
+.resume .hobby-gallery .hobby-media-carousel { width:100%; min-height:0; height:100%; background:#282828; }
+.resume .hobby-gallery .carousel-track { height:100%; }
+.resume .hobby-gallery .carousel-slide { height:100%; min-height:0; background:#282828; }
+.resume .hobby-gallery .carousel-slide img { object-fit:cover; }
+.resume .hobby-gallery .carousel-controls { right:10px; bottom:10px; }
 
 @media (max-width:700px) {
   .resume .cv-grid { gap:42px; }
