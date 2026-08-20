@@ -224,9 +224,18 @@ const lightbox = document.querySelector('#lightbox');
 const lightboxImage = lightbox?.querySelector('.lightbox-image');
 const lightboxCaption = lightbox?.querySelector('.lightbox-caption');
 const lightboxStage = lightbox?.querySelector('.lightbox-stage');
+const lightboxPage = document.createElement('p');
+lightboxPage.className = 'lightbox-page';
+lightboxPage.setAttribute('aria-live', 'polite');
+lightbox?.append(lightboxPage);
 let zoom = 1, panX = 0, panY = 0, dragStart = null;
 let lightboxGallery = [], lightboxIndex = 0;
 const minZoom = .45, maxZoom = 4;
+function updateLightboxPage() {
+  lightboxPage.textContent = lightboxGallery.length > 1
+    ? `${String(lightboxIndex + 1).padStart(2, '0')} / ${String(lightboxGallery.length).padStart(2, '0')}`
+    : '';
+}
 function renderLightboxImage() { lightboxImage.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`; }
 function fitLightboxImage() {
   if (!lightboxImage?.naturalWidth || !lightboxStage) return;
@@ -244,9 +253,10 @@ function showLightboxImage(image) {
   lightboxImage.src = image.currentSrc || image.src || image;
   lightboxImage.alt = image.alt || '';
   lightboxCaption.textContent = '';
+  updateLightboxPage();
 }
 function moveLightbox(direction) { if (!lightboxGallery.length) return; lightboxIndex = (lightboxIndex + direction + lightboxGallery.length) % lightboxGallery.length; showLightboxImage(lightboxGallery[lightboxIndex]); }
-function closeLightbox() { lightbox.classList.remove('is-open', 'has-gallery'); lightbox.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; lightboxGallery = []; }
+function closeLightbox() { lightbox.classList.remove('is-open', 'has-gallery'); lightbox.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; lightboxGallery = []; updateLightboxPage(); }
 document.querySelectorAll('.artwork-button').forEach(button => button.addEventListener('click', () => {
   lightboxGallery = []; lightboxIndex = 0; lightbox.classList.remove('has-gallery');
   showLightboxImage({ src: button.dataset.full, alt: button.querySelector('img').alt });
