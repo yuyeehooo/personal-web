@@ -295,8 +295,9 @@ body.project-entering .detail:target {
 .project-switch span .ui-arrow-icon { width: .86em; height: .86em; }
 
 /* Touch interactions only apply inside the full-screen image viewer. */
-.lightbox-stage { touch-action: none; }
-.lightbox-image { transition: transform .14s ease-out; }
+.lightbox-stage { touch-action: none; overscroll-behavior: contain; }
+.lightbox-image { transition: transform .18s cubic-bezier(.22, .8, .25, 1); }
+.lightbox-stage.is-gesturing .lightbox-image { transition: none; }
 
 @media (hover: none), (pointer: coarse) {
   .lightbox-hint::after { content: ' · Pinch to zoom · Swipe to browse'; }
