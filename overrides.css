@@ -263,3 +263,42 @@ body.project-entering .detail:target {
     font-size: clamp(2rem, 10vw, 3.25rem) !important;
   }
 }
+
+
+/* Inline arrow language — prevents iOS and Android from substituting emoji glyphs. */
+.ui-arrow-icon {
+  display: block;
+  width: 1em;
+  height: 1em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+.project-card .arrow,
+.about-teaser .big-arrow,
+.contact-link-arrow,
+.contact-links a > span,
+#entry .enter span,
+.scroll-note span {
+  display: inline-grid;
+  place-items: center;
+  line-height: 1;
+}
+
+.project-card .arrow .ui-arrow-icon { width: 1.15em; height: 1.15em; }
+.about-teaser .big-arrow .ui-arrow-icon { width: .95em; height: .95em; stroke-width: 1.55; }
+.carousel-arrow .ui-arrow-icon,
+.lightbox-nav .ui-arrow-icon,
+.project-switch span .ui-arrow-icon { width: .86em; height: .86em; }
+
+/* Touch interactions only apply inside the full-screen image viewer. */
+.lightbox-stage { touch-action: none; }
+.lightbox-image { transition: transform .14s ease-out; }
+
+@media (hover: none), (pointer: coarse) {
+  .lightbox-hint::after { content: ' · Pinch to zoom · Swipe to browse'; }
+  .lightbox-nav { opacity: .78; }
+}
