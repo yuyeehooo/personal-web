@@ -40,7 +40,7 @@ const mailIcon = '<span class="contact-link-icon" aria-hidden="true"><svg viewBo
 if (contactLinks.length === 2) {
   const [websiteLink, emailLink] = contactLinks;
   websiteLink.href = '#entry';
-  websiteLink.innerHTML = `${homeIcon}<span class="contact-link-label">yeehoo.com</span><span class="contact-link-arrow" aria-hidden="true">↗</span>`;
+  websiteLink.innerHTML = `${homeIcon}<span class="contact-link-label">yeehoo.xyz</span><span class="contact-link-arrow" aria-hidden="true">↗</span>`;
   emailLink.href = 'mailto:yuyeehooo@gmail.com';
   emailLink.innerHTML = `${mailIcon}<span class="contact-link-label">yuyeehooo@gmail.com</span><span class="contact-link-arrow" aria-hidden="true">↗</span>`;
   websiteLink.addEventListener('click', event => {
@@ -546,4 +546,14 @@ document.querySelectorAll('.project-switch [data-project-route]').forEach(link =
 
   viewer.querySelectorAll('.lightbox-close, .lightbox-nav').forEach(control => control.addEventListener('click', () => setTimeout(reset, 0)));
   new MutationObserver(() => { if (!viewer.classList.contains('is-open')) reset(); }).observe(viewer, { attributes: true, attributeFilter: ['class'] });
+})();
+
+
+/* Project details conclude with a direct route into the full About me profile. */
+(() => {
+  const aboutArrow = '<svg class="ui-arrow-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 19 19 5M9 5h10v10"/></svg>';
+  document.querySelectorAll('.detail').forEach(detail => {
+    if (detail.querySelector('.project-about-cta')) return;
+    detail.insertAdjacentHTML('beforeend', `<a class="resume-contact-cta project-about-cta" href="#resume">About me <span>${aboutArrow}</span></a>`);
+  });
 })();
