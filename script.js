@@ -447,3 +447,103 @@ document.querySelectorAll('.project-switch [data-project-route]').forEach(link =
     openProject(link.dataset.projectRoute);
   });
 });
+
+
+/* Platform-independent interface arrows and mobile image-viewer gestures. */
+(() => {
+  const arrowSvg = direction => {
+    const paths = {
+      northeast: '<path d="M5 19 19 5M9 5h10v10"/>',
+      southeast: '<path d="m5 5 14 14M9 19h10V9"/>',
+      east: '<path d="M4 12h16M14 6l6 6-6 6"/>',
+      west: '<path d="M20 12H4m6 6-6-6 6-6"/>',
+      south: '<path d="M12 4v16m-6-6 6 6 6-6"/>'
+    };
+    return `<svg class="ui-arrow-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${paths[direction]}</svg>`;
+  };
+
+  const replaceArrow = (selector, direction) => document.querySelectorAll(selector).forEach(element => {
+    if (element.dataset.iconReady) return;
+    element.dataset.iconReady = 'true';
+    element.innerHTML = arrowSvg(direction);
+  });
+
+  replaceArrow('.project-card .arrow, .contact-link-arrow, .contact-links a > span', 'northeast');
+  replaceArrow('.about-teaser .big-arrow, #entry .enter span', 'southeast');
+  replaceArrow('.scroll-note span', 'south');
+  document.querySelectorAll('.project-switch span, .carousel-arrow, .lightbox-nav').forEach(element => {
+    if (element.dataset.iconReady) return;
+    const label = `${element.getAttribute('aria-label') || ''} ${element.textContent || ''}`.toLowerCase();
+    const direction = /previous|left|←/.test(label) ? 'west' : 'east';
+    element.dataset.iconReady = 'true';
+    element.innerHTML = arrowSvg(direction);
+  });
+})();
+
+(() => {
+  const viewer = document.querySelector('#lightbox');
+  const stage = viewer?.querySelector('.lightbox-stage');
+  const image = viewer?.querySelector('.lightbox-image');
+  if (!viewer || !stage || !image) return;
+
+  let scale = 1, translateX = 0, translateY = 0, gestureStart = null, pinchStart = null, moved = false;
+  const maxScale = 4;
+  const distance = touches => Math.hypot(touches[0].clientX - touches[1].clientX, touches[0].clientY - touches[1].clientY);
+  const render = () => { image.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`; };
+  const reset = () => { scale = 1; translateX = 0; translateY = 0; render(); };
+  const isTouchDevice = () => matchMedia('(pointer: coarse)').matches;
+  const switchImage = direction => viewer.querySelector(direction === 'next' ? '.lightbox-next' : '.lightbox-previous')?.click();
+
+  stage.addEventListener('touchstart', event => {
+    if (!isTouchDevice()) return;
+    moved = false;
+    if (event.touches.length === 2) {
+      pinchStart = { distance: distance(event.touches), scale };
+      gestureStart = null;
+      event.preventDefault();
+      return;
+    }
+    if (event.touches.length === 1) {
+      const touch = event.touches[0];
+      gestureStart = { x: touch.clientX, y: touch.clientY, translateX, translateY, scale };
+    }
+  }, { passive: false });
+
+  stage.addEventListener('touchmove', event => {
+    if (!isTouchDevice()) return;
+    if (event.touches.length === 2 && pinchStart) {
+      scale = Math.min(maxScale, Math.max(1, pinchStart.scale * (distance(event.touches) / pinchStart.distance)));
+      moved = true;
+      render();
+      event.preventDefault();
+      return;
+    }
+    if (event.touches.length === 1 && gestureStart && scale > 1) {
+      const touch = event.touches[0];
+      translateX = gestureStart.translateX + touch.clientX - gestureStart.x;
+      translateY = gestureStart.translateY + touch.clientY - gestureStart.y;
+      moved = true;
+      render();
+      event.preventDefault();
+    }
+  }, { passive: false });
+
+  stage.addEventListener('touchend', event => {
+    if (!isTouchDevice()) return;
+    if (pinchStart && event.touches.length < 2) pinchStart = null;
+    if (!gestureStart || event.changedTouches.length !== 1) return;
+    const touch = event.changedTouches[0];
+    const dx = touch.clientX - gestureStart.x;
+    const dy = touch.clientY - gestureStart.y;
+    if (gestureStart.scale === 1 && Math.abs(dx) > 52 && Math.abs(dx) > Math.abs(dy) * 1.25) {
+      switchImage(dx < 0 ? 'next' : 'previous');
+      reset();
+    } else if (scale === 1 && moved) {
+      reset();
+    }
+    gestureStart = null;
+  });
+
+  viewer.querySelectorAll('.lightbox-close, .lightbox-nav').forEach(control => control.addEventListener('click', () => setTimeout(reset, 0)));
+  new MutationObserver(() => { if (!viewer.classList.contains('is-open')) reset(); }).observe(viewer, { attributes: true, attributeFilter: ['class'] });
+})();
