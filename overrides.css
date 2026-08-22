@@ -346,3 +346,26 @@ body.project-entering .detail:target {
     font-size: clamp(24px, 8vw, 40px);
   }
 }
+
+
+/* Corrected navigation contrast and contact alignment. */
+#nav {
+  mix-blend-mode: normal;
+}
+
+#nav nav a {
+  color: #fff !important;
+  mix-blend-mode: difference;
+}
+
+#nav .home-dot {
+  background: #fff;
+  mix-blend-mode: difference;
+}
+
+.contact .contact-link-label {
+  display: block !important;
+  place-items: initial !important;
+  align-self: stretch;
+  text-align: left !important;
+}
