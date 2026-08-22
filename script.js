@@ -96,7 +96,7 @@ if (paintingCard) {
 }
 const resume = document.querySelector('#resume');
 if (resume && !resume.querySelector('.resume-contact-cta')) {
-  resume.insertAdjacentHTML('beforeend', '<a class="resume-contact-cta" href="#contact">Feel free to get in touch.<span aria-hidden="true">↗</span></a>');
+  resume.insertAdjacentHTML('beforeend', '<a class="resume-contact-cta" href="#contact">Feel free to get in touch.<span class="cta-arrow" aria-hidden="true"><svg class="ui-arrow-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 19 19 5M9 5h10v10"/></svg></span></a>');
   const resumeContactCta = resume.querySelector('.resume-contact-cta');
   bindCursorHover(resumeContactCta);
   resumeContactCta.addEventListener('click', event => {
