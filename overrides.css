@@ -348,24 +348,40 @@ body.project-entering .detail:target {
 }
 
 
-/* Corrected navigation contrast and contact alignment. */
+/* Navigation stays black on light areas and inverts only over dark content. */
 #nav {
-  mix-blend-mode: normal;
+  color: #fff;
+  mix-blend-mode: difference;
 }
 
 #nav nav a {
   color: #fff !important;
-  mix-blend-mode: difference;
+  mix-blend-mode: normal !important;
 }
 
 #nav .home-dot {
   background: #fff;
-  mix-blend-mode: difference;
+  mix-blend-mode: normal;
+}
+
+#nav nav a:hover,
+#nav nav a:focus-visible {
+  border-color: currentColor;
+}
+
+/* Keep each contact label anchored to the left, regardless of viewport width. */
+.contact .contact-links a {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  justify-content: initial;
+  column-gap: 12px;
 }
 
 .contact .contact-link-label {
   display: block !important;
+  width: 100%;
   place-items: initial !important;
   align-self: stretch;
+  justify-self: stretch;
   text-align: left !important;
 }
