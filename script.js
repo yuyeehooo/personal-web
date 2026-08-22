@@ -11,8 +11,8 @@ document.querySelectorAll('[src], [data-full]').forEach(element => {
 
 const bridgeCard = document.querySelector('.project-card.bridge');
 const levelupCard = document.querySelector('.project-card.level');
-if (bridgeCard) bridgeCard.style.backgroundImage = "url('Project/Bridge/site photo/8.jpg')";
-if (levelupCard) levelupCard.style.backgroundImage = "url('Project/Level up/bird view.jpg')";
+if (bridgeCard) bridgeCard.style.backgroundImage = `url("${resolveAssetPath('Bridge/site photo/8.jpg')}")`;
+if (levelupCard) levelupCard.style.backgroundImage = `url("${resolveAssetPath('Level%20up/bird%20view.jpg')}")`;
 
 const entry = document.querySelector('#entry');
 entry.addEventListener('click', (event) => {
