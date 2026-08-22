@@ -491,6 +491,7 @@ document.querySelectorAll('.project-switch [data-project-route]').forEach(link =
   let translateY = 0;
   let singleTouch = null;
   let pinch = null;
+  let lastTap = null;
   let frame = 0;
   const maxScale = 4;
   const isTouchDevice = () => matchMedia('(pointer: coarse)').matches;
@@ -581,17 +582,54 @@ document.querySelectorAll('.project-switch [data-project-route]').forEach(link =
       const touch = event.changedTouches[0];
       const dx = touch.clientX - singleTouch.x;
       const dy = touch.clientY - singleTouch.y;
-      if (singleTouch.scale <= 1.01 && Math.abs(dx) > 46 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+      const isTap = !singleTouch.moved && Math.abs(dx) < 12 && Math.abs(dy) < 12;
+      const now = performance.now();
+      const isDoubleTap = isTap && lastTap && now - lastTap.time < 300 &&
+        Math.hypot(touch.clientX - lastTap.x, touch.clientY - lastTap.y) < 30;
+
+      if (isDoubleTap) {
+        const bounds = stage.getBoundingClientRect();
+        const fromCenterX = touch.clientX - bounds.left - bounds.width / 2;
+        const fromCenterY = touch.clientY - bounds.top - bounds.height / 2;
+        if (scale > 1.01) {
+          reset();
+        } else {
+          scale = 2.2;
+          translateX = -fromCenterX * (scale - 1);
+          translateY = -fromCenterY * (scale - 1);
+          keepInBounds();
+          requestRender();
+        }
+        lastTap = null;
+      } else if (singleTouch.scale <= 1.01 && Math.abs(dx) > 46 && Math.abs(dx) > Math.abs(dy) * 1.2) {
         switchImage(dx < 0 ? 'next' : 'previous');
         reset();
+        lastTap = null;
       } else {
         keepInBounds();
         requestRender();
+        lastTap = isTap ? { time: now, x: touch.clientX, y: touch.clientY } : null;
       }
     }
     singleTouch = null;
     pinch = null;
   }, { passive: false });
+
+  stage.addEventListener('dblclick', event => {
+    if (isTouchDevice() || !viewer.classList.contains('is-open')) return;
+    const bounds = stage.getBoundingClientRect();
+    const fromCenterX = event.clientX - bounds.left - bounds.width / 2;
+    const fromCenterY = event.clientY - bounds.top - bounds.height / 2;
+    if (scale > 1.01) {
+      reset();
+    } else {
+      scale = 2.2;
+      translateX = -fromCenterX * (scale - 1);
+      translateY = -fromCenterY * (scale - 1);
+      keepInBounds();
+      requestRender();
+    }
+  });
 
   stage.addEventListener('touchcancel', () => {
     setGesturing(false);
