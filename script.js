@@ -486,68 +486,129 @@ document.querySelectorAll('.project-switch [data-project-route]').forEach(link =
   const image = viewer?.querySelector('.lightbox-image');
   if (!viewer || !stage || !image) return;
 
-  let scale = 1, translateX = 0, translateY = 0, gestureStart = null, pinchStart = null, moved = false;
+  let scale = 1;
+  let translateX = 0;
+  let translateY = 0;
+  let singleTouch = null;
+  let pinch = null;
+  let frame = 0;
   const maxScale = 4;
-  const distance = touches => Math.hypot(touches[0].clientX - touches[1].clientX, touches[0].clientY - touches[1].clientY);
-  const render = () => { image.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`; };
-  const reset = () => { scale = 1; translateX = 0; translateY = 0; render(); };
   const isTouchDevice = () => matchMedia('(pointer: coarse)').matches;
-  const switchImage = direction => viewer.querySelector(direction === 'next' ? '.lightbox-next' : '.lightbox-previous')?.click();
+  const touchDistance = touches => Math.hypot(
+    touches[0].clientX - touches[1].clientX,
+    touches[0].clientY - touches[1].clientY
+  );
 
-  stage.addEventListener('touchstart', event => {
-    if (!isTouchDevice()) return;
-    moved = false;
-    if (event.touches.length === 2) {
-      pinchStart = { distance: distance(event.touches), scale };
-      gestureStart = null;
-      event.preventDefault();
+  const render = () => {
+    frame = 0;
+    image.style.transform = `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`;
+  };
+  const requestRender = () => {
+    if (!frame) frame = requestAnimationFrame(render);
+  };
+  const keepInBounds = () => {
+    if (scale <= 1.01) {
+      scale = 1;
+      translateX = 0;
+      translateY = 0;
       return;
     }
-    if (event.touches.length === 1) {
+    const maxX = Math.max(0, (image.clientWidth * scale - stage.clientWidth) / 2);
+    const maxY = Math.max(0, (image.clientHeight * scale - stage.clientHeight) / 2);
+    translateX = Math.max(-maxX, Math.min(maxX, translateX));
+    translateY = Math.max(-maxY, Math.min(maxY, translateY));
+  };
+  const reset = () => {
+    scale = 1;
+    translateX = 0;
+    translateY = 0;
+    requestRender();
+  };
+  const setGesturing = active => stage.classList.toggle('is-gesturing', active);
+  const switchImage = direction => {
+    viewer.querySelector(direction === 'next' ? '.lightbox-next' : '.lightbox-previous')?.click();
+  };
+
+  stage.addEventListener('touchstart', event => {
+    if (!isTouchDevice() || !viewer.classList.contains('is-open')) return;
+    setGesturing(true);
+    if (event.touches.length === 2) {
+      pinch = { distance: touchDistance(event.touches), scale };
+      singleTouch = null;
+    } else if (event.touches.length === 1) {
       const touch = event.touches[0];
-      gestureStart = { x: touch.clientX, y: touch.clientY, translateX, translateY, scale };
+      singleTouch = { x: touch.clientX, y: touch.clientY, translateX, translateY, scale, moved: false };
+      pinch = null;
     }
+    event.preventDefault();
   }, { passive: false });
 
   stage.addEventListener('touchmove', event => {
-    if (!isTouchDevice()) return;
-    if (event.touches.length === 2 && pinchStart) {
-      scale = Math.min(maxScale, Math.max(1, pinchStart.scale * (distance(event.touches) / pinchStart.distance)));
-      moved = true;
-      render();
+    if (!isTouchDevice() || !viewer.classList.contains('is-open')) return;
+    if (event.touches.length === 2 && pinch) {
+      scale = Math.min(maxScale, Math.max(1, pinch.scale * (touchDistance(event.touches) / pinch.distance)));
+      keepInBounds();
+      requestRender();
       event.preventDefault();
       return;
     }
-    if (event.touches.length === 1 && gestureStart && scale > 1) {
+    if (event.touches.length === 1 && singleTouch) {
       const touch = event.touches[0];
-      translateX = gestureStart.translateX + touch.clientX - gestureStart.x;
-      translateY = gestureStart.translateY + touch.clientY - gestureStart.y;
-      moved = true;
-      render();
+      const dx = touch.clientX - singleTouch.x;
+      const dy = touch.clientY - singleTouch.y;
+      if (Math.abs(dx) > 6 || Math.abs(dy) > 6) singleTouch.moved = true;
+      if (scale > 1.01) {
+        translateX = singleTouch.translateX + dx;
+        translateY = singleTouch.translateY + dy;
+        keepInBounds();
+        requestRender();
+      }
       event.preventDefault();
     }
   }, { passive: false });
 
   stage.addEventListener('touchend', event => {
     if (!isTouchDevice()) return;
-    if (pinchStart && event.touches.length < 2) pinchStart = null;
-    if (!gestureStart || event.changedTouches.length !== 1) return;
-    const touch = event.changedTouches[0];
-    const dx = touch.clientX - gestureStart.x;
-    const dy = touch.clientY - gestureStart.y;
-    if (gestureStart.scale === 1 && Math.abs(dx) > 52 && Math.abs(dx) > Math.abs(dy) * 1.25) {
-      switchImage(dx < 0 ? 'next' : 'previous');
-      reset();
-    } else if (scale === 1 && moved) {
-      reset();
+    if (event.touches.length === 1 && pinch) {
+      const touch = event.touches[0];
+      singleTouch = { x: touch.clientX, y: touch.clientY, translateX, translateY, scale, moved: false };
+      pinch = null;
+      return;
     }
-    gestureStart = null;
+    if (event.touches.length) return;
+    setGesturing(false);
+    if (singleTouch) {
+      const touch = event.changedTouches[0];
+      const dx = touch.clientX - singleTouch.x;
+      const dy = touch.clientY - singleTouch.y;
+      if (singleTouch.scale <= 1.01 && Math.abs(dx) > 46 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+        switchImage(dx < 0 ? 'next' : 'previous');
+        reset();
+      } else {
+        keepInBounds();
+        requestRender();
+      }
+    }
+    singleTouch = null;
+    pinch = null;
+  }, { passive: false });
+
+  stage.addEventListener('touchcancel', () => {
+    setGesturing(false);
+    singleTouch = null;
+    pinch = null;
+    keepInBounds();
+    requestRender();
+  }, { passive: true });
+
+  image.addEventListener('load', reset);
+  viewer.querySelectorAll('.lightbox-close, .lightbox-nav').forEach(control => {
+    control.addEventListener('click', () => setTimeout(reset, 0));
   });
-
-  viewer.querySelectorAll('.lightbox-close, .lightbox-nav').forEach(control => control.addEventListener('click', () => setTimeout(reset, 0)));
-  new MutationObserver(() => { if (!viewer.classList.contains('is-open')) reset(); }).observe(viewer, { attributes: true, attributeFilter: ['class'] });
+  new MutationObserver(() => {
+    if (!viewer.classList.contains('is-open')) reset();
+  }).observe(viewer, { attributes: true, attributeFilter: ['class'] });
 })();
-
 
 /* Project details conclude with a direct route into the full About me profile. */
 (() => {
