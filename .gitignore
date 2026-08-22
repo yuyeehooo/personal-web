@@ -1,0 +1,8 @@
+node_modules/
+dist/
+generated-previews/
+.vercel/
+.env.local
+
+.vercel
+.env*

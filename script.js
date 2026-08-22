@@ -468,7 +468,7 @@ document.querySelectorAll('.project-switch [data-project-route]').forEach(link =
     element.innerHTML = arrowSvg(direction);
   });
 
-  replaceArrow('.project-card .arrow, .contact-link-arrow, .contact-links a > span', 'northeast');
+  replaceArrow('.project-card .arrow, .contact-link-arrow', 'northeast');
   replaceArrow('.about-teaser .big-arrow, #entry .enter span', 'southeast');
   replaceArrow('.scroll-note span', 'south');
   document.querySelectorAll('.project-switch span, .carousel-arrow, .lightbox-nav').forEach(element => {
