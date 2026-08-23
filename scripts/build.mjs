@@ -81,4 +81,5 @@ if (!contents['script.js'].startsWith('const assetManifest =')) throw new Error(
 const version = new Date().toISOString().replace(/\D/g, '');
 contents['index.html'] = contents['index.html'].replace('href="style.css"', `href="style.css?v=${version}"`).replace('href="overrides.css"', `href="overrides.css?v=${version}"`).replace('src="script.js"', `src="script.js?v=${version}"`);
 await Promise.all(sourceFiles.map(file => fs.writeFile(path.join(output, file), contents[file])));
+await fs.copyFile(path.join(root, 'Open Graph.png'), path.join(output, 'Open Graph.png'));
 console.log(`Built ${assetCount} optimized images in dist/`);
